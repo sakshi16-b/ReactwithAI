@@ -6,7 +6,7 @@ import "./App.css";
 function App() {
   return (
     <>
-      <h1>React with AI Tools</h1>
+      <h1 className="bg-cyan-600 text-5xl">React with AI Tools</h1>
     </>
   );
 }
