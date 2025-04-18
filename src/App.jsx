@@ -1,12 +1,23 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
   return (
     <>
-      <h1 className="bg-cyan-600 text-5xl">React with AI Tools</h1>
+      <div className="grid grid-cols-5 h-screen text-center">
+        <div className="col-span-1 bg-zinc-800 text-2xl">Heeloo</div>
+        <div className="col-span-4 p-10">
+          <div className="container h-160"></div>
+
+          <div className="bg-zinc-800  p-1 w-1/2 text-white border-zinc-400 m-auto rounded-2xl flex">
+            <input
+              type="text"
+              className="w-full h-full p-3 outline-none"
+              placeholder="Ask me Anything"
+            />
+            <button>Ask</button>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
