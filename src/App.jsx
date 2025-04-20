@@ -2,13 +2,15 @@ import { useState } from "react";
 import "./App.css";
 import { useEffect } from "react";
 import { URL } from "./constants ";
+import Answers from "./Answers";
 
 function App() {
   const [question, setQuestion] = useState("");
+  const [result, setResult] = useState(undefined);
   const payload = {
     contents: [
       {
-        parts: [{ text: "Explain how AI works" }],
+        parts: [{ text: question }],
       },
     ],
   };
@@ -19,7 +21,11 @@ function App() {
       body: JSON.stringify(payload),
     });
     response = await response.json();
-    console.log(response.candidates[0].content.parts[0].text);
+    let dataString = response.candidates[0].content.parts[0].text;
+    dataString = dataString.split("* ");
+    dataString = dataString.map((item) => item.trim());
+    console.log(dataString);
+    setResult(dataString);
   };
 
   // useEffect(() => {
@@ -44,8 +50,20 @@ function App() {
         </select>
         <div className="col-span-1 bg-zinc-800 text-2xl">Heeloo</div>
         <div className="col-span-4 p-10">
-          <div className="container h-160"></div>
-
+          <div className="container h-160">
+            <div className="text-white">
+              <ul>
+                {" "}
+                {result &&
+                  result.map((item, index) => (
+                    <li>
+                      {" "}
+                      <Answers answer={item} key={index} />
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          </div>
           <div className="bg-zinc-800  p-1 pr-5 w-1/2 text-white border-zinc-700 m-auto rounded-4xl flex h-16">
             <input
               type="text"
