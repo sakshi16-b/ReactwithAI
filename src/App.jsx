@@ -51,12 +51,12 @@ function App() {
         <div className="col-span-1 bg-zinc-800 text-2xl">Heeloo</div>
         <div className="col-span-4 p-10">
           <div className="container h-160">
-            <div className="text-white">
+            <div className="text bg-zinc-300">
               <ul>
                 {" "}
                 {result &&
                   result.map((item, index) => (
-                    <li>
+                    <li key={index}>
                       {" "}
                       <Answers answer={item} key={index} />
                     </li>
