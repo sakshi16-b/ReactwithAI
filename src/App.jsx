@@ -53,11 +53,9 @@ function App() {
           <div className="container h-160">
             <div className="text bg-zinc-300">
               <ul>
-                {" "}
                 {result &&
                   result.map((item, index) => (
                     <li key={index}>
-                      {" "}
                       <Answers answer={item} key={index} />
                     </li>
                   ))}
