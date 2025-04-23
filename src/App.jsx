@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import "./App.css";
 import { useEffect } from "react";
 import { URL } from "./constants ";
@@ -6,7 +6,7 @@ import Answers from "./Answers";
 
 function App() {
   const [question, setQuestion] = useState("");
-  const [result, setResult] = useState(undefined);
+  const [result, setResult] = useState([]);
   const payload = {
     contents: [
       {
@@ -24,18 +24,14 @@ function App() {
     let dataString = response.candidates[0].content.parts[0].text;
     dataString = dataString.split("* ");
     dataString = dataString.map((item) => item.trim());
-    console.log(dataString);
-    setResult(dataString);
+    setResult([
+      ...result,
+      { type: "q", text: question },
+      { type: "a", text: dataString },
+    ]);
   };
+  console.log(result);
 
-  // useEffect(() => {
-  //   console.log(darkMode);
-  //   if (darkMode == "dark") {
-  //     document.documentElement.classList.add("dark");
-  //   } else {
-  //     document.documentElement.classList.remove("dark");
-  //   }
-  // }, [darkMode]);
   return (
     <>
       <div className="grid grid-cols-5 h-screen text-center">
@@ -48,18 +44,42 @@ function App() {
           </option>
           <option value="light">Light</option>
         </select>
-        <div className="col-span-1 bg-zinc-800 text-2xl">Heeloo</div>
+        <div className="col-span-1 bg-zinc-800 text-2xl">Hello</div>
         <div className="col-span-4 p-10">
-          <div className="container h-160">
+          <div className="container h-160 overflow-scroll">
             <div className="text bg-zinc-300">
               <ul>
+                {result.map((item, index) =>
+                  item.type == "q" ? (
+                    <li key={index + Math.random()} className="text-left p-1">
+                      <Answers
+                        answer={item.text}
+                        totalResult={1}
+                        index={index}
+                      />
+                    </li>
+                  ) : (
+                    item?.text.map((ansItem, ansIndex) => (
+                      <li key={index + Math.random()} className="text-left p-1">
+                        <Answers
+                          answer={ansItem}
+                          totalResult={ansItem.length}
+                          index={ansIndex}
+                        />
+                      </li>
+                    ))
+                  )
+                )}
+              </ul>
+
+              {/* <ul>
                 {result &&
                   result.map((item, index) => (
-                    <li key={index}>
-                      <Answers answer={item} key={index} />
+                    <li key={index + Math.random()} className="text-left p-1">
+                      <Answers answer={item} />
                     </li>
                   ))}
-              </ul>
+              </ul> */}
             </div>
           </div>
           <div className="bg-zinc-800  p-1 pr-5 w-1/2 text-white border-zinc-700 m-auto rounded-4xl flex h-16">
