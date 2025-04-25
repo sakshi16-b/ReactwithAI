@@ -7,6 +7,7 @@ import Answers from "./Answers";
 function App() {
   const [question, setQuestion] = useState("");
   const [result, setResult] = useState([]);
+  const [recenthistory, setRecentHistory] = useState([]);
   const payload = {
     contents: [
       {
@@ -16,6 +17,15 @@ function App() {
   };
 
   const askQuestion = async () => {
+    if (localStorage.getItem("history")) {
+      let history = JSON.parse(localStorage.getItem("history"));
+      history = [question, ...history];
+      localStorage.setItem("history", JSON.stringify(history));
+      setRecentHistory(history);
+    } else {
+      localStorage.setItem("history", JSON.stringify([question]));
+      setRecentHistory(question);
+    }
     let response = await fetch(URL, {
       method: "POST",
       body: JSON.stringify(payload),
@@ -30,7 +40,7 @@ function App() {
       { type: "a", text: dataString },
     ]);
   };
-  console.log(result);
+  console.log(recenthistory);
 
   return (
     <>
@@ -44,7 +54,12 @@ function App() {
           </option>
           <option value="light">Light</option>
         </select>
-        <div className="col-span-1 bg-zinc-800 text-2xl">Hello</div>
+        <div className="col-span-1 bg-zinc-800 text-2xl">
+          <ul>
+            {recenthistory &&
+              recenthistory.map((item, index) => <li key={index}>{item}</li>)}
+          </ul>
+        </div>
         <div className="col-span-4 p-10">
           <div className="container h-160 overflow-scroll">
             <div className="text-zinc-300">
