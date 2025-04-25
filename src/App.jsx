@@ -55,9 +55,17 @@ function App() {
           <option value="light">Light</option>
         </select>
         <div className="col-span-1 bg-zinc-800 text-2xl">
-          <ul>
+          <h1 className="text-xl text-white">Recent Searches</h1>
+          <ul className="text-left overflow-auto text-sm">
             {recenthistory &&
-              recenthistory.map((item, index) => <li key={index}>{item}</li>)}
+              recenthistory.map((item, index) => (
+                <li
+                  className="p-1 pl-5 text-zinc-400 cursor-pointer hover:bg-zinc-600 hover:text-zinc-400"
+                  key={index}
+                >
+                  {item}
+                </li>
+              ))}
           </ul>
         </div>
         <div className="col-span-4 p-10">
